@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile – DoMore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Scrollbar */
+        .scroll-posts::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .scroll-posts::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+
+        /* Post card hover */
+        .post-card {
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="bg-white shadow-md px-8 py-3 flex items-center justify-between sticky top-0 z-50">
+        <div class="flex items-center">
+            <h1 class="text-xl font-bold text-black">DoMore</h1>
+        </div>
+
+        <div class="w-1/3">
+            <input type="text" placeholder="Search"
+                class="w-full px-4 py-2 rounded-full bg-gray-100 outline-none text-sm">
+        </div>
+
+        <div class="flex items-center gap-6">
+            <div class="px-4 py-1 rounded-xl">
+                <a href="/feed" class="text-gray-500 font-semibold hover:text-blue-600 text-sm transition">Home</a>
+            </div>
+            <i class="fa-regular fa-message text-gray-500 text-lg cursor-pointer hover:text-blue-500 transition"></i>
+            <i class="fa-regular fa-bell text-gray-500 text-lg cursor-pointer hover:text-blue-500 transition"></i>
+            <div class="flex items-center gap-2">
+                <img src="https://i.pravatar.cc/40" class="w-8 h-8 rounded-full">
+                <span class="text-sm font-medium">
+                    <%= user ? user.username : "User" %>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== 3-COLUMN GRID ===== -->
+    <div class="max-w-7xl mx-auto mt-6 px-6 pb-10 grid grid-cols-12 gap-6">
+
+        <!-- ===== LEFT SIDEBAR ===== -->
+        <div class="col-span-3 sticky top-24 h-fit">
+            <div class="bg-white rounded-xl shadow p-5">
+                <div class="flex flex-col items-center text-center">
+                    <img src="https://i.pravatar.cc/100" class="w-20 h-20 rounded-full mb-3">
+                    <h2 class="font-bold text-lg">
+                        <%= user.username %>
+                    </h2>
+                    <p class="text-gray-400 text-sm">@<%= user.username %>
+                    </p>
+                </div>
+
+                <div class="flex justify-between mt-5 text-center border-t pt-4">
+                    <div>
+                        <p class="font-bold text-gray-800">
+                            <%= user.posts ? user.posts.length : 0 %>
+                        </p>
+                        <p class="text-gray-400 text-xs">Posts</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-gray-800">2,022</p>
+                        <p class="text-gray-400 text-xs">Followers</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-gray-800">590</p>
+                        <p class="text-gray-400 text-xs">Following</p>
+                    </div>
+                </div>
+
+                <div class="mt-5 space-y-1 border-t pt-4">
+                    <a href="/feed"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-500 hover:bg-gray-100 hover:text-blue-600 transition">
+                        <i class="fa-solid fa-house w-4"></i> Home
+                    </a>
+                    <a href="/profile"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm bg-blue-50 text-blue-600 font-semibold">
+                        <i class="fa-solid fa-user w-4"></i> My Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CENTER COLUMN ===== -->
+        <div class="col-span-6 space-y-5">
+
+            <!-- TWITTER-STYLE PROFILE CARD -->
+            <div class="bg-white rounded-xl shadow overflow-hidden">
+
+                <!-- Cover banner -->
+                <div class="h-32 bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-500 relative">
+                    <button
+                        class="absolute top-3 right-3 bg-white text-gray-800 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition shadow-sm">
+                        <i class="fa-solid fa-pen text-xs mr-1"></i>Edit Profile
+                    </button>
+                </div>
+
+                <!-- Avatar + info -->
+                <div class="px-5 pt-0 pb-5">
+                    <!-- Avatar sits half on banner, half below -->
+                    <div class="flex justify-between items-start">
+                        <img src="https://i.pravatar.cc/100"
+                            class="w-20 h-20 rounded-full border-4 border-white -mt-10 shadow">
+                    </div>
+
+                    <!-- Text content below avatar -->
+                    <div class="mt-2">
+                        <h2 class="text-base font-bold text-gray-900 leading-tight">
+                            <%= user.username %>
+                        </h2>
+                        <p class="text-gray-400 text-sm">@<%= user.username %>
+                        </p>
+
+                        <p class="text-gray-600 text-sm mt-2">
+                            ✍️ Building cool things on the web. Just sharing my journey.
+                        </p>
+
+                        <p class="text-gray-400 text-xs mt-2 flex items-center gap-1">
+                            <i class="fa-regular fa-calendar"></i> Joined March 2025
+                        </p>
+                    </div>
+
+                    <!-- Stats row -->
+                    <div class="flex gap-5 mt-4 pt-4 border-t text-sm">
+                        <div>
+                            <span class="font-bold text-gray-800">
+                                <%= user.posts ? user.posts.length : 0 %>
+                            </span>
+                            <span class="text-gray-400 ml-1">Posts</span>
+                        </div>
+                        <div>
+                            <span class="font-bold text-gray-800">2,022</span>
+                            <span class="text-gray-400 ml-1">Followers</span>
+                        </div>
+                        <div>
+                            <span class="font-bold text-gray-800">590</span>
+                            <span class="text-gray-400 ml-1">Following</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CREATE POST -->
+            <div class="bg-white rounded-xl shadow p-4">
+                <div class="flex gap-3 items-start">
+                    <img src="https://i.pravatar.cc/40" class="w-10 h-10 rounded-full flex-shrink-0">
+                    <form action="/createPost" method="POST" class="w-full flex flex-col gap-3">
+                        <textarea name="content" rows="3" placeholder="Share something..."
+                            class="w-full resize-none bg-gray-100 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-300 transition"></textarea>
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 transition">
+                                Post
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- YOUR POSTS -->
+            <div>
+                <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-3 px-1">Your Posts</h2>
+
+                <div class="space-y-4">
+
+                    <% if(user.posts.length===0) { %>
+                        <div class="bg-white rounded-xl shadow p-8 text-center text-gray-400 text-sm">
+                            <i class="fa-regular fa-face-meh text-3xl mb-2 block"></i>
+                            Nothing here yet. Write your first post above.
+                        </div>
+                        <% } %>
+
+                            <% user.posts.forEach(post=> { %>
+                                <div class="post-card bg-white rounded-xl shadow p-5">
+
+                                    <!-- Post header -->
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <img src="https://i.pravatar.cc/40" class="w-9 h-9 rounded-full">
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-800">
+                                                <%= user.username %>
+                                            </p>
+                                            <p class="text-xs text-gray-400">@<%= user.username %>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                                        <%= post.content %>
+                                    </p>
+
+                                    <!-- Actions -->
+                                    <div class="flex items-center justify-between border-t pt-3 text-sm text-gray-500">
+                                        <div class="flex gap-5">
+                                            <a href="/likePost/<%= post._id %>"
+                                                class="flex items-center gap-1.5 hover:text-red-500 transition">
+                                                <i class="fa-regular fa-heart"></i>
+                                                <span>
+                                                    <%= post.likes.length %>
+                                                </span>
+                                            </a>
+                                            <span
+                                                class="flex items-center gap-1.5 hover:text-blue-500 transition cursor-pointer">
+                                                <i class="fa-regular fa-comment"></i> Comment
+                                            </span>
+                                            <span
+                                                class="flex items-center gap-1.5 hover:text-green-500 transition cursor-pointer">
+                                                <i class="fa-solid fa-share"></i> Share
+                                            </span>
+                                        </div>
+                                        <a href="/editPost/<%= post._id %>"
+                                            class="text-xs px-3 py-1.5 border border-gray-200 rounded-lg text-gray-500 hover:text-blue-600 hover:border-blue-300 transition">
+                                            <i class="fa-solid fa-pen-to-square text-xs mr-1"></i>Edit
+                                        </a>
+                                    </div>
+                                </div>
+                                <% }) %>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== RIGHT PANEL ===== -->
+        <div class="col-span-3 space-y-5 sticky top-24 h-fit">
+
+            <!-- Trending -->
+            <div class="bg-white rounded-xl shadow p-5">
+                <h3 class="font-bold text-base mb-4">Trending</h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="hover:text-blue-500 cursor-pointer transition text-gray-600">#WebDevelopment</li>
+                    <li class="hover:text-blue-500 cursor-pointer transition text-gray-600">#JavaScript</li>
+                    <li class="hover:text-blue-500 cursor-pointer transition text-gray-600">#NodeJS</li>
+                    <li class="hover:text-blue-500 cursor-pointer transition text-gray-600">#TailwindCSS</li>
+                </ul>
+            </div>
+
+            <!-- Suggestions -->
+            <div class="bg-white rounded-xl shadow p-5">
+                <h3 class="font-bold text-base mb-4">Suggestions</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="https://i.pravatar.cc/40?img=5" class="w-8 h-8 rounded-full">
+                            <span class="text-sm font-medium">Alex</span>
+                        </div>
+                        <button
+                            class="text-blue-500 text-xs border border-blue-400 px-3 py-1 rounded-full hover:bg-blue-500 hover:text-white transition">Follow</button>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="https://i.pravatar.cc/40?img=6" class="w-8 h-8 rounded-full">
+                            <span class="text-sm font-medium">Sara</span>
+                        </div>
+                        <button
+                            class="text-blue-500 text-xs border border-blue-400 px-3 py-1 rounded-full hover:bg-blue-500 hover:text-white transition">Follow</button>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="https://i.pravatar.cc/40?img=7" class="w-8 h-8 rounded-full">
+                            <span class="text-sm font-medium">John</span>
+                        </div>
+                        <button
+                            class="text-blue-500 text-xs border border-blue-400 px-3 py-1 rounded-full hover:bg-blue-500 hover:text-white transition">Follow</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
