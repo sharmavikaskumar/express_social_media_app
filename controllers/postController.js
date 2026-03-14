@@ -28,6 +28,18 @@ exports.createPost = async (req,res)=>{
 
 };
 
+exports.searchUser = async (req,res)=>{
+
+   let query = req.query.q;
+
+   let users = await userModel.find({
+      username: { $regex: query, $options: "i" }
+   }).limit(5);
+
+   res.json(users);
+};
+
+
 exports.likePost = async (req,res)=>{
 
  let post = await postModel.findById(req.params.id);
@@ -42,7 +54,7 @@ exports.likePost = async (req,res)=>{
 
  await post.save();
 
- res.redirect("/profile");
+ res.redirect("/feed");
 
 };
 
